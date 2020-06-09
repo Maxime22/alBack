@@ -56,3 +56,18 @@ exports.editOneGroupSection = (req, res, next) => {
         }
     );
 };
+
+exports.getOneGroupSectionWithTitle = (req, res, next) => {
+    let sectionReq = req.body;
+    GroupSection.findOne({ title: req.body.title }).then(
+        (groupSection) => {
+            res.status(200).json(groupSection);
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+};

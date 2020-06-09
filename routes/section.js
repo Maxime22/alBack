@@ -12,6 +12,12 @@ const sectionCtrl = require('../controllers/section')
 // AUTH NEEDS TO BE BEFORE MULTER IN MIDDLEWARE ORDER
 router.post('/', multer, sectionCtrl.createSection);
 
+// get (with a post) SEVERAL SECTIONS
+router.post('/severalSections', sectionCtrl.getSeveralSections);
+
+// get (with a post) ONE SECTION
+router.post('/getOneSectionWithTitle', sectionCtrl.getOneSectionWithTitle);
+
 // GET /alBack/sections/:id find one section
 router.get('/:id', sectionCtrl.findOneSection);
 

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const GroupSection = require('../models/groupSection');
+mongoose.set('useFindAndModify', false);
 
 const sectionSchema = mongoose.Schema({
     title: { type: String, required: true },
