@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const Section = require('../models/section');
-
 // AUTH NEEDS TO BE BEFORE MULTER IN MIDDLEWARE ORDER
 // const auth = require('../middleware/auth');
 

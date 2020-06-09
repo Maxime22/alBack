@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const config = require('./configdb.js');
 const Section = require('./models/section');
 const sectionRoutes = require('./routes/section');
+const groupSectionRoutes = require('./routes/groupSection');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/alBack/sections', sectionRoutes);
+app.use('/alBack/groupSections', groupSectionRoutes);
 
 app.use((req, res, next) => {
     console.log('Requête reçue !');
