@@ -4,7 +4,8 @@ mongoose.set('useFindAndModify', false);
 
 const sectionSchema = mongoose.Schema({
     title: { type: String, required: true },
-    content: { type: String, required: true }
+    content: { type: String, required: true },
+    isVisibleInMenu: {type: Boolean, required: true}
 });
 
 module.exports = mongoose.model('Section', sectionSchema);

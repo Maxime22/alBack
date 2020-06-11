@@ -4,6 +4,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 exports.createSection = (req, res, next) => {
     const sectionReq = req.body;
+    console.log(req.body);
     // delete sectionReq._id;
     let section = new Section(sectionReq); // sometimes {...sectionReq}, depends what is the req
     section.save()
@@ -11,24 +12,9 @@ exports.createSection = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-exports.findOneSection = (req, res, next) => {
-    Section.findOne({
-        _id: req.params.id
-    }).then(
-        (section) => {
-            res.status(200).json(section);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            });
-        }
-    );
-};
-
 exports.editOneSection = (req, res, next) => {
     let sectionReq = req.body;
+    console.log(req.body);
     // updateOne needs the id in the section to update it
     sectionReq['_id'] = req.params.id;
     let section = new Section(sectionReq);
@@ -41,6 +27,22 @@ exports.editOneSection = (req, res, next) => {
     ).catch(
         (error) => {
             res.status(400).json({
+                error: error
+            });
+        }
+    );
+};
+
+exports.findOneSection = (req, res, next) => {
+    Section.findOne({
+        _id: req.params.id
+    }).then(
+        (section) => {
+            res.status(200).json(section);
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
                 error: error
             });
         }
