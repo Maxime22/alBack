@@ -5,6 +5,7 @@ const config = require('./configdb.js');
 const Section = require('./models/section');
 const sectionRoutes = require('./routes/section');
 const groupSectionRoutes = require('./routes/groupSection');
+const photoRoutes = require('./routes/photo');
 
 const app = express();
 
@@ -25,8 +26,12 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+const path = require('path');
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 app.use('/alBack/sections', sectionRoutes);
 app.use('/alBack/groupSections', groupSectionRoutes);
+app.use('/alBack/photos', groupSectionRoutes);
 
 app.use((req, res, next) => {
     console.log('Requête reçue !');

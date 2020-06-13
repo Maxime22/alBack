@@ -1,11 +1,11 @@
 const Section = require('../models/section');
 const GroupSection = require('../models/groupSection');
+const Photo = require('../models/photo');
 var ObjectId = require('mongodb').ObjectID;
+const fs = require('fs');
 
 exports.createSection = (req, res, next) => {
     const sectionReq = req.body;
-    console.log(req.body);
-    // delete sectionReq._id;
     let section = new Section(sectionReq); // sometimes {...sectionReq}, depends what is the req
     section.save()
         .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
@@ -13,12 +13,40 @@ exports.createSection = (req, res, next) => {
 };
 
 exports.editOneSection = (req, res, next) => {
-    let sectionReq = req.body;
-    console.log(req.body);
+    // THE IMAGE IS ALREADY UPLOADED WHEN WE ARRIVE HERE
+
+    // WHAT IS IN REQ IF I USE 2 MULTERS ?
+
+    let sectionReq = req.file ?
+        {
+            ...JSON.parse(req.body.section),
+            mainImgUrl: `${req.protocol}://${req.get('host')}/images/sections/${req.file.filename}`
+        } : req.body;
+
     // updateOne needs the id in the section to update it
     sectionReq['_id'] = req.params.id;
     let section = new Section(sectionReq);
-    Section.updateOne({ _id: req.params.id }, section).then(
+
+    Section.findOne({ _id: req.params.id })
+        .then(sectionFound => {
+            let filename = "";
+            if (sectionFound.mainImgUrl) {
+                filename = sectionFound.mainImgUrl.split('/images/sections/')[1];
+            }
+            // IF AN IMAGE EXISTS (filename) and we have a new image (req.file) WE DELETE the old one WITH UNLINK OTHERWISE WE JUST UPDATE
+            if (filename !== "" && req.file) {
+                fs.unlink(`images/sections/${filename}`, () => {
+                    updateOneWithId(req.params.id, section, res);
+                });
+            } else {
+                updateOneWithId(req.params.id, section, res);
+            }
+        })
+        .catch(error => res.status(500).json({ error }));
+};
+
+updateOneWithId = (paramId, section, res) => {
+    Section.updateOne({ _id: paramId }, section).then(
         () => {
             res.status(201).json({
                 message: 'Section updated successfully!'
@@ -31,7 +59,7 @@ exports.editOneSection = (req, res, next) => {
             });
         }
     );
-};
+}
 
 exports.findOneSection = (req, res, next) => {
     Section.findOne({
@@ -55,9 +83,9 @@ exports.deleteOneSection = (req, res, next) => {
     // https://dev.to/kwabenberko/implementing-sql--like-cascades-in-mongoose-bap
     GroupSection.find({ sectionsIds: { $in: [sectionId] } }).then(groupSections => {
         Promise.all(
-            groupSections.map(groupSection => 
+            groupSections.map(groupSection =>
                 GroupSection.findOneAndUpdate(
-                    {_id:groupSection._id},
+                    { _id: groupSection._id },
                     { $pull: { sectionsIds: sectionId } },
                     { new: true }
                 )
@@ -65,19 +93,17 @@ exports.deleteOneSection = (req, res, next) => {
         );
     });
 
-    Section.deleteOne({ _id: sectionId }).then(
-        () => {
-            res.status(200).json({
-                message: 'Section deleted!'
+    Section.findOne({ _id: sectionId })
+        .then(section => {
+            const filename = section.mainImgUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+                Section.deleteOne({ _id: sectionId })
+                    .then(() => res.status(200).json({ message: 'Section supprimée !' }))
+                    .catch(error => res.status(400).json({ error }));
             });
-        }
-    ).catch(
-        (error) => {
-            res.status(400).json({
-                error: error
-            });
-        }
-    );
+        })
+        .catch(error => res.status(500).json({ error }));
+
 };
 
 exports.getAllSections = (req, res, next) => {
