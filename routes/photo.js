@@ -9,6 +9,6 @@ const multerPhotos = require('../middleware/multer-config-section-photos');
 const photoCtrl = require('../controllers/photo')
 
 // PUT /alBack/photos/sections/:id edit photos of one section
-router.put('/sections/:id', photoCtrl.editPhotoSection);
+router.put('/sections/:id', multerPhotos, photoCtrl.editPhotoSection);
 
 module.exports = router;

@@ -31,7 +31,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/alBack/sections', sectionRoutes);
 app.use('/alBack/groupSections', groupSectionRoutes);
-app.use('/alBack/photos', groupSectionRoutes);
+app.use('/alBack/photos', photoRoutes);
 
 app.use((req, res, next) => {
     console.log('Requête reçue !');

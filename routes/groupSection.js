@@ -12,7 +12,7 @@ router.get('/' + '', groupSectionCtrl.getAllGroupSections);
 // get (with a post) ONE GROUPSECTION
 router.post('/getOneGroupSectionWithTitle', groupSectionCtrl.getOneGroupSectionWithTitle);
 
-// PUT /alBack/sections/:id edit one groupSection
+// PUT /alBack/groupSections/:id edit one groupSection
 router.put('/:id', groupSectionCtrl.editOneGroupSection);
 
 // DELETE /alBack/groupSections/:id delete one section
