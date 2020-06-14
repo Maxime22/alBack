@@ -27,35 +27,40 @@ exports.editPhotoSection = (req, res, next) => {
     });
 
     // WE WANT TO CREATE THE PHOTOS OR UPDATE THEM AND MAYYYBEEEEEE RECEIVE THE IDS IN THE RESPONSE
+    let photosCreatedAndUpdatedArray = [];
+    let errorsApi = [];
     photosValues.forEach(photoValue => {
         if (photoValue._id) {
             Photo.updateOne({ _id: photoValue._id }, photoValue).then(
-                (a) => {
-                    console.log("a ", a)
-                    // res.status(201).json({
-                    //     message: 'Section updated successfully!'
-                    // });
+                (data) => {
+                    photosCreatedAndUpdatedArray.push(data)
                 }
             ).catch(
                 (error) => {
-                    res.status(400).json({
-                        error: error
-                    });
+                    errorsApi.push(error)
                 }
             );
         } else {
             // TODO
             // A MON AVIS CA PLANTE CAR CA VA DANS LE ERROR A CAUSE DU MODEL QUI N'EST PAS BON, PUISQUE LE FIRST SAVE NE FONCTIONNE PAS
             let photo = new Photo(photoValue);
-            console.log("coucou")
             photo.save()
-                .then((b) => { console.log("b", b) })
-                .catch(error => res.status(400).json({ error }));
+                .then((data) => {
+                    photosCreatedAndUpdatedArray.push(data)
+                })
+                .catch(error => {
+                    errorsApi.push(error)
+                });
         }
 
     });
 
-    // res.status(201).json({
-    //     message: "coucou",
-    // });
+    if (errorsApi.length > 0) {
+        res.status(400).json({ errorsApi:errorsApi });
+    } else {
+        res.status(201).json({
+            photosCreatedAndUpdatedArray: photosCreatedAndUpdatedArray,
+            message: "Photos created and/or updated!"
+        });
+    }
 };
