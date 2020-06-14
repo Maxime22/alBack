@@ -19,7 +19,7 @@ exports.editPhotoSection = (req, res, next) => {
         photoValue['photoImgUrl'] = `${req.protocol}://${req.get('host')}/images/sections/photos/${realFilename}`
     });
 
-    console.log("photosValues ", photosValues)
+    // console.log("photosValues ", photosValues)
 
     // WE DON'T WANT TO SEND THE FILENAME IN THE DB
     photosValues.forEach(photoValue => {
@@ -64,3 +64,12 @@ exports.editPhotoSection = (req, res, next) => {
         });
     }
 };
+
+exports.getPhotoFromSection = (req, res, next) => {
+    const sectionId = req.params.id;
+    Photo.find({ sectionId: { $in: [sectionId] } }).then(photos => {
+        res.status(201).json({
+            photos: photos,
+        });
+    });
+}
