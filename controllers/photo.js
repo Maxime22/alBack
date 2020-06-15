@@ -32,15 +32,40 @@ exports.editPhotoSection = (req, res, next) => {
     let errorsApi = [];
     photosValues.forEach(photoValue => {
         if (photoValue._id) {
-            Photo.updateOne({ _id: photoValue._id }, photoValue).then(
-                (data) => {
-                    photosCreatedAndUpdatedArray.push(data)
+            Photo.findOne({
+                _id: photoValue._id
+            }).then(
+                (photo) => {
+                    if (photo['photoImgUrl'] !== photoValue['photoImgUrl']) {
+                        const filename = photo['photoImgUrl'].split('/images/sections/photos/')[1];
+                        fs.unlink(`images/sections/photos/${filename}`, () => {
+                            Photo.updateOne({ _id: photoValue._id }, photoValue).then(
+                                (data) => {
+                                    photosCreatedAndUpdatedArray.push(data)
+                                }
+                            ).catch(
+                                (error) => {
+                                    errorsApi.push(error)
+                                }
+                            );
+                        });
+                    } else {
+                        Photo.updateOne({ _id: photoValue._id }, photoValue).then(
+                            (data) => {
+                                photosCreatedAndUpdatedArray.push(data)
+                            }
+                        ).catch(
+                            (error) => {
+                                errorsApi.push(error)
+                            }
+                        );
+                    }
                 }
             ).catch(
                 (error) => {
-                    errorsApi.push(error)
                 }
             );
+
         } else {
             // TODO
             // A MON AVIS CA PLANTE CAR CA VA DANS LE ERROR A CAUSE DU MODEL QUI N'EST PAS BON, PUISQUE LE FIRST SAVE NE FONCTIONNE PAS

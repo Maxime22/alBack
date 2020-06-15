@@ -95,7 +95,7 @@ exports.deleteOneSection = (req, res, next) => {
 
     Section.findOne({ _id: sectionId })
         .then(section => {
-            const filename = section.mainImgUrl.split('/images/')[1];
+            const filename = section.mainImgUrl.split('/images/sections/')[1];
             fs.unlink(`images/${filename}`, () => {
                 Section.deleteOne({ _id: sectionId })
                     .then(() => res.status(200).json({ message: 'Section supprimée !' }))
