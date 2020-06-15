@@ -16,10 +16,11 @@ exports.editPhotoSection = (req, res, next) => {
                 break;
             }
         }
-        photoValue['photoImgUrl'] = `${req.protocol}://${req.get('host')}/images/sections/photos/${realFilename}`
+        // WE NEED TO KEEP THE PHOTOIMGURL IF THERE IS NO NEW FILENAME
+        if (realFilename !== "") {
+            photoValue['photoImgUrl'] = `${req.protocol}://${req.get('host')}/images/sections/photos/${realFilename}`
+        }
     });
-
-    // console.log("photosValues ", photosValues)
 
     // WE DON'T WANT TO SEND THE FILENAME IN THE DB
     photosValues.forEach(photoValue => {
@@ -56,7 +57,7 @@ exports.editPhotoSection = (req, res, next) => {
     });
 
     if (errorsApi.length > 0) {
-        res.status(400).json({ errorsApi:errorsApi });
+        res.status(400).json({ errorsApi: errorsApi });
     } else {
         res.status(201).json({
             photosCreatedAndUpdatedArray: photosCreatedAndUpdatedArray,
