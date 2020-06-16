@@ -5,7 +5,7 @@ const photoSchema = mongoose.Schema({
     photoTitle: { type: String, required: true },
     typeOfPhoto: { type: String, required: true },
     sectionId: { type: String, required: true },
-    orderInPhotos: { type: String, required: false }
+    orderInPhotos: { type: String, required: true }
 });
 
 module.exports = mongoose.model('Photo', photoSchema);
