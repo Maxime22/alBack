@@ -1,6 +1,5 @@
 const Section = require('../models/section');
 const GroupSection = require('../models/groupSection');
-const Photo = require('../models/photo');
 var ObjectId = require('mongodb').ObjectID;
 const fs = require('fs');
 

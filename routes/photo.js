@@ -14,4 +14,7 @@ router.put('/sections/:id', multerPhotos, photoCtrl.editPhotoSection);
 // GET /alBack/photos/sections/:id get photos from a section
 router.get('/sections/:id', photoCtrl.getPhotoFromSection);
 
+// GET /alBack/photos/deletePhotos/:id get photos from a section
+router.post('/deletePhotos', photoCtrl.deletePhotosFromSection);
+
 module.exports = router;

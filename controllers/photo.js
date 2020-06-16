@@ -99,3 +99,20 @@ exports.getPhotoFromSection = (req, res, next) => {
         });
     });
 }
+
+exports.deletePhotosFromSection = (req, res, next) => {
+    const photosToDelete = req.body;
+
+    for (let index = 0; index < photosToDelete.length; index++) {
+        photosToDelete[index] = ObjectId(photosToDelete[index]);
+    }
+
+    photosToDelete.forEach(photoId => {
+        Photo.deleteOne({ _id: photoId })
+                    .then(() => {})
+                    .catch(error => res.status(400).json({ error }));
+    });
+
+    res.status(201).json({ message: 'Photos supprimées !' });
+
+}
