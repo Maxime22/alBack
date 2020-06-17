@@ -10,6 +10,9 @@ router.post('/', multerPage, pageCtrl.createPage);
 // get (with a post) ONE PAGE
 router.post('/getOnePageWithId', pageCtrl.getOnePageWithId);
 
+// get (with a post) ONE PAGE
+router.post('/getOnePageWithTitle', pageCtrl.getOnePageWithTitle);
+
 // edit one page
 router.put('/:id', multerPage, pageCtrl.editOnePage);
 

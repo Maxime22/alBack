@@ -44,6 +44,20 @@ exports.getOnePageWithId = (req, res, next) => {
     );
 };
 
+exports.getOnePageWithTitle = (req, res, next) => {
+    Page.findOne({ title: String(req.body.title.toLowerCase()) }).then(
+        (page) => {
+            res.status(200).json(page);
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+};
+
 exports.editOnePage = (req, res, next) => {
     let pageReq = req.file ?
         {
@@ -73,7 +87,7 @@ exports.editOnePage = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-updateOneWithId = (paramId, page, res) => {
+function updateOneWithId(paramId, page, res) {
     Page.updateOne({ _id: paramId }, page).then(
         () => {
             res.status(201).json({

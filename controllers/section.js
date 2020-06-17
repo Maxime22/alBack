@@ -42,7 +42,7 @@ exports.editOneSection = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-updateOneWithId = (paramId, section, res) => {
+function updateOneWithId(paramId, section, res){
     Section.updateOne({ _id: paramId }, section).then(
         () => {
             res.status(201).json({
