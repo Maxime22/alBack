@@ -67,8 +67,6 @@ exports.editPhotoSection = (req, res, next) => {
             );
 
         } else {
-            // TODO
-            // A MON AVIS CA PLANTE CAR CA VA DANS LE ERROR A CAUSE DU MODEL QUI N'EST PAS BON, PUISQUE LE FIRST SAVE NE FONCTIONNE PAS
             let photo = new Photo(photoValue);
             photo.save()
                 .then((data) => {

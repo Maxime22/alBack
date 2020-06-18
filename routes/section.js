@@ -4,13 +4,15 @@ const router = express.Router();
 // AUTH NEEDS TO BE BEFORE MULTER IN MIDDLEWARE ORDER
 // const auth = require('../middleware/auth');
 
+const auth = require('../middleware/auth');
+
 const multerSectionAdmin = require('../middleware/multer-config-section-mainImg');
 
 const sectionCtrl = require('../controllers/section')
 
 // POST /alBack/sections save a new section
 // AUTH NEEDS TO BE BEFORE MULTER IN MIDDLEWARE ORDER
-router.post('/', sectionCtrl.createSection);
+router.post('/', auth, sectionCtrl.createSection);
 
 // get (with a post) SEVERAL SECTIONS
 router.post('/severalSections', sectionCtrl.getSeveralSections);
@@ -22,10 +24,10 @@ router.post('/getOneSectionWithTitle', sectionCtrl.getOneSectionWithTitle);
 router.get('/:id', sectionCtrl.findOneSection);
 
 // PUT /alBack/sections/:id edit one section
-router.put('/:id', multerSectionAdmin, sectionCtrl.editOneSection);
+router.put('/:id', auth, multerSectionAdmin, sectionCtrl.editOneSection);
 
 // DELETE /alBack/sections/:id delete one section
-router.delete('/:id', sectionCtrl.deleteOneSection);
+router.delete('/:id', auth, sectionCtrl.deleteOneSection);
 
 // GET /alBack/sections get all sections
 router.get('/' + '', sectionCtrl.getAllSections);
