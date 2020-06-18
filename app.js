@@ -6,6 +6,7 @@ const sectionRoutes = require('./routes/section');
 const groupSectionRoutes = require('./routes/groupSection');
 const photoRoutes = require('./routes/photo');
 const pageRoutes = require('./routes/page');
+const mailRoutes = require('./routes/mail');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/alBack/sections', sectionRoutes);
 app.use('/alBack/groupSections', groupSectionRoutes);
 app.use('/alBack/photos', photoRoutes);
 app.use('/alBack/pages', pageRoutes);
+app.use('/alBack/mail', mailRoutes);
 
 app.use((req, res, next) => {
     console.log('Requête reçue !');
