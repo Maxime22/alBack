@@ -70,7 +70,6 @@ exports.editPhotoSection = (req, res, next) => {
             let photo = new Photo(photoValue);
             photo.save()
                 .then((data) => {
-                    console.log("data ", data)
                     photosCreatedAndUpdatedArray.push(data)
                 })
                 .catch(error => {
@@ -80,7 +79,6 @@ exports.editPhotoSection = (req, res, next) => {
         }
     });
 
-    console.log("errorsApi ", errorsApi)
     if (errorsApi.length > 0) {
         res.status(400).json({ errorsApi: errorsApi });
     } else {
