@@ -5,10 +5,10 @@ const multerPrices = require('../middleware/multer-config-prices');
 
 const priceCtrl = require('../controllers/price')
 
-// PUT /alBack/prices/:id edit photos (and create) of one section
-router.put('/:id', auth, multerPrices, priceCtrl.editPrice);
+// PUT /alBack/prices/
+router.put('/', auth, multerPrices, priceCtrl.editPrice);
 
-router.get('/:id', priceCtrl.getPrice);
+router.get('/', priceCtrl.getPrice);
 
 router.post('/deletePrices', auth, priceCtrl.deletePrices);
 
