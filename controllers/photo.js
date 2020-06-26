@@ -7,6 +7,7 @@ exports.editPhotoSection = (req, res, next) => {
     // FORM DATAS NEED MULTER BECAUSE BODY PARSER DOESN'T HANDLE IT
 
     let photosValues = JSON.parse(req.body.photosValues);
+    console.log(photosValues);
     photosValues.forEach(photoValue => {
         let realFilename = "";
         for (let index = 0; index < req.files.length; index++) {
