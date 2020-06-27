@@ -12,6 +12,7 @@ const priceRoutes = require('./routes/price');
 
 const app = express();
 
+// PROD
 mongoose.connect('mongodb+srv://maxime:' + config.password + '@cluster0-j2mw2.mongodb.net/' + config.dbname + '?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
@@ -19,6 +20,15 @@ mongoose.connect('mongodb+srv://maxime:' + config.password + '@cluster0-j2mw2.mo
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+// DEV (nothing changed for now)
+// mongoose.connect('mongodb+srv://maxime:' + config.password + '@cluster0-j2mw2.mongodb.net/' + config.dbname + '?retryWrites=true&w=majority',
+// {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// })
+// .then(() => console.log('Connexion à MongoDB réussie !'))
+// .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
