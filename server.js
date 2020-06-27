@@ -49,16 +49,15 @@ const errorHandler = error => {
 };
 
 // normal http
-const server = http.createServer(app);
+// const server = http.createServer(app);
 // test HTTPS
-const httpserver = https.createServer(credentials, app);
+const server = https.createServer(credentials, app);
 
-server.on('error', errorHandler);
-server.on('listening', () => {
-    const address = server.address();
-    const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-    console.log('Listening on ' + bind);
-});
+// server.on('error', errorHandler);
+// server.on('listening', () => {
+//     const address = server.address();
+//     const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+//     console.log('Listening on ' + bind);
+// });
 
 server.listen(port);
-httpserver.listen(443);
