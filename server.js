@@ -48,8 +48,8 @@ const errorHandler = error => {
     }
 };
 
-const server = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
+// const server = http.createServer(app);
+const server = https.createServer(credentials, app);
 
 server.on('error', errorHandler);
 server.on('listening', () => {
