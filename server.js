@@ -59,5 +59,5 @@ const server = https.createServer(credentials, app);
 //     const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
 //     console.log('Listening on ' + bind);
 // });
-
+console.log(port);
 server.listen(port);
